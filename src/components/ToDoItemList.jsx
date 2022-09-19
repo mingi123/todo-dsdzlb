@@ -1,17 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ToDoItem from './ToDoItem';
 
-const ToDoItemList = () => (
+const ToDoItemList = ({ title, todoList, setTodoList }) => (
   <div className="todoapp__list">
-    <p className="todoapp__list-tit">제목</p>
+    <p className="todoapp__list-tit">{title}</p>
     
-    {/* 기능 구현 전, 임시로 아래와 같이 작성. 기능 개발시에는 map으로 컴포넌트 반환 */}
     <ul className="todoapp__list-ul">
-      <ToDoItem />
-      <ToDoItem />
-      <ToDoItem />
+      {todoList &&
+        todoList.map((todoItem) => (
+          <ToDoItem
+            key={todoItem.id}
+            todoItem={todoItem}
+            todoList={todoList}
+            setTodoList={setTodoList}
+          />
+        ))}
     </ul>
   </div>
 );
+
+ToDoItemList.propTypes = {
+  title: PropTypes.string.isRequired,
+  todoList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+    })
+  ),
+  setTodoList: PropTypes.func.isRequired,
+};
 
 export default ToDoItemList;
